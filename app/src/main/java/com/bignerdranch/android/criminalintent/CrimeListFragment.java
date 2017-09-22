@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,21 +52,23 @@ public class CrimeListFragment extends Fragment {
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
+        private ImageView mSolvedImageView;
         private Crime mCrime;
 
         public CrimeHolder(View view) {
             super(view);
 
-            itemView.setOnClickListener(this);
-
+            view.setOnClickListener(this);
             mTitleTextView = (TextView) view.findViewById(R.id.crime_title);
             mDateTextView = (TextView) view.findViewById(R.id.crime_date);
+            mSolvedImageView = (ImageView) view.findViewById(R.id.crime_solved);
         }
 
         public void bind(Crime crime) {
             mCrime = crime;
             mTitleTextView.setText(crime.getTitle());
             mDateTextView.setText(crime.getDate().toString());
+            mSolvedImageView.setVisibility(mCrime.isSolved() ? View.VISIBLE : View.GONE);
         }
 
         @Override
@@ -84,13 +87,9 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view;
-            if(viewType == 0)
-                view = layoutInflater.inflate(R.layout.list_item_crime,parent,false);
-            else
-                view = layoutInflater.inflate(R.layout.list_item_crime_with_police,parent,false);
 
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(R.layout.list_item_crime, parent, false);
             return new CrimeHolder(view);
         }
 
@@ -101,17 +100,8 @@ public class CrimeListFragment extends Fragment {
         }
 
         @Override
-        public int getItemViewType(int position) {
-            if(mCrimes.get(position).isRequiresPolice())
-                return 1;
-            else
-                return 0;
-        }
-
-        @Override
         public int getItemCount() {
             return mCrimes.size();
         }
     }
-
 }
