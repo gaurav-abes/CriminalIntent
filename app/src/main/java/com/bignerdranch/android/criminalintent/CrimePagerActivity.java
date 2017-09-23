@@ -51,10 +51,10 @@ public class CrimePagerActivity extends AppCompatActivity {
             }
         });
 
-        setUpTheCorrectFragmentAccordingToId();
-
         mFirstPageButton = (Button) findViewById(R.id.first_page);
         mLastPageButton = (Button) findViewById(R.id.last_page);
+
+        setUpTheCorrectFragmentAccordingToId();
 
         mFirstPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
